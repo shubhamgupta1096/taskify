@@ -16,7 +16,7 @@ exports.getTasks = catchAsync(async (req, res, next) => {
     tasks = JSON.parse(redisData);
   } else {
     tasks = await Task.find({ user });
-    await client.set(key, JSON.stringify(tasks), "EX", 5 * 50);
+    await client.set(key, JSON.stringify(tasks), "EX", process.env.REDIS_DATA_EXPIRY);
   }
 
   res.status(200).json({ tasks, message: `${tasks.length} tasks found` });

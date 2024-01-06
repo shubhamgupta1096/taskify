@@ -35,7 +35,7 @@ const updateRedis = async (user) => {
   const isPresent = await client.get(key);
 
   if (!isPresent) {
-    await client.set(key, JSON.stringify(allTasks), "EX", 5 * 50);
+    await client.set(key, JSON.stringify(allTasks), "EX", process.env.REDIS_DATA_EXPIRY);
   } else {
     const currentExpiration = await client.ttl(key);
     await client.set(key, JSON.stringify(allTasks), "XX");
